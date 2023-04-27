@@ -1,7 +1,25 @@
 const pokeApi = {};
 
+function converterDetalhesPokemon(pokeDetail) {
+  const pokemon = new Pokemon()
+  
+  const tipos = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
+  const [tipoPrincipal] = tipos
+
+  pokemon.numero = pokeDetail.order
+  pokemon.nome = pokeDetail.name
+  pokemon.tipoPrincipal = tipoPrincipal
+  pokemon.tipos = tipos
+  pokemon.imgPokemon = pokeDetail.sprites.other.dream_world.front_default
+
+  return pokemon;
+
+}
+
 pokeApi.getDetalhesPokemons = (pokemon) => {
-  return fetch(pokemon.url).then((respose) => respose.json())
+  return fetch(pokemon.url)
+    .then((respose) => respose.json())
+    .then(converterDetalhesPokemon)
 }
 
 pokeApi.getPokemons = (offset = 0, limit = 10) => {
@@ -14,5 +32,5 @@ pokeApi.getPokemons = (offset = 0, limit = 10) => {
     .then((pokemonDetalhes) => pokemonDetalhes)
 
     .catch((error) => console.error(error))
-    
+
 }
