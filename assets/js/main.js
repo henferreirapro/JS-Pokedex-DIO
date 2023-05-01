@@ -1,11 +1,12 @@
 function converterListaPokemons(pokemon) {
   return `
+    <li class="pokemon ${pokemon.tipoPrincipal}">
       <span class="number">#${pokemon.numero}</span>
-      <span class="name">${pokemon.name}</span>
+      <span class="name">${pokemon.nome}</span>
       
       <div class="detail">
         <ol class="types">
-          ${pokemon.tipos.map((type) => `<li class="type">${type}</li>`).join("")}
+          ${pokemon.tipos.map((type) => `<li class="type ${type}">${type}</li>`).join("")}
         </ol>
         
         <img src="${pokemon.imgPokemon}" alt="${pokemon.nome}">
