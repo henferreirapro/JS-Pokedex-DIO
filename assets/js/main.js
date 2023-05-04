@@ -1,6 +1,6 @@
 const listaPokemon = document.getElementById('pokemon-list');
 const botaoCarregamento = document.getElementById('botaoCarregamento');
-const qtdMaximoPokemons = 11;
+const qtdMaximoPokemons = 51;
 const limit = 5;
 let offset = 0;
 
@@ -29,13 +29,14 @@ function carregarPokemon(offset, limit) {
 carregarPokemon(offset, limit)
 
 botaoCarregamento.addEventListener('click', () => {
+  offset += limit
   
-  const qtdProximaPagina = offset += limit;
+  const qtdProximaPagina = offset + limit ;
   
   if(qtdProximaPagina >= qtdMaximoPokemons) {
     const novoLimit = qtdMaximoPokemons - offset;
     
-    carregarPokemon(novoLimit, limit)
+    carregarPokemon(offset, novoLimit)
     botaoCarregamento.parentElement.removeChild(botaoCarregamento)
     
   } else {
