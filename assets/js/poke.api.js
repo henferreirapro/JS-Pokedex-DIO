@@ -6,7 +6,7 @@ function converterDetalhesPokemon(pokeDetail) {
   const tipos = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
   const [tipoPrincipal] = tipos
 
-  pokemon.numero = pokeDetail.order
+  pokemon.numero = pokeDetail.id
   pokemon.nome = pokeDetail.name
   pokemon.tipoPrincipal = tipoPrincipal
   pokemon.tipos = tipos

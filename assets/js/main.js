@@ -1,34 +1,49 @@
 const listaPokemon = document.getElementById('pokemon-list');
 const botaoCarregamento = document.getElementById('botaoCarregamento');
+const qtdMaximoPokemons = 11;
 const limit = 5;
 let offset = 0;
 
+function converterListaPokemons(pokemon) {
+  return `
+  <li class="pokemon ${pokemon.tipoPrincipal}">
+    <span class="number">#${pokemon.numero}</span>
+    <span class="name">${pokemon.nome}</span>
+    
+    <div class="detail">
+      <ol class="types">
+        ${pokemon.tipos.map((type) => `<li class="type ${type}">${type}</li>`).join("")}
+      </ol>
+      
+      <img src="${pokemon.imgPokemon}" alt="${pokemon.nome}">
+    </div>
+  </li >`
+}
 
-function carregarPokemon(offset = 0, limit = 10) {
+function carregarPokemon(offset, limit) {
   pokeApi.getPokemons(offset, limit).then((lista = []) => {
-    listaPokemon.innerHTML += lista.map((pokemon) => 
-      `<li class="pokemon ${pokemon.tipoPrincipal}">
-        <span class="number">#${pokemon.numero}</span>
-        <span class="name">${pokemon.nome}</span>
-        
-        <div class="detail">
-          <ol class="types">
-            ${pokemon.tipos.map((type) => `<li class="type ${type}">${type}</li>`).join("")}
-          </ol>
-          
-          <img src="${pokemon.imgPokemon}" alt="${pokemon.nome}">
-        </div>
-      </li >`
-    ).join("")
+    listaPokemon.innerHTML += lista.map(converterListaPokemons).join("")
   })
 } 
 
 carregarPokemon(offset, limit)
 
 botaoCarregamento.addEventListener('click', () => {
-  offset += limit
-  carregarPokemon(offset, limit)
+  
+  const qtdProximaPagina = offset += limit;
+  
+  if(qtdProximaPagina >= qtdMaximoPokemons) {
+    const novoLimit = qtdMaximoPokemons - offset;
+    
+    carregarPokemon(novoLimit, limit)
+    botaoCarregamento.parentElement.removeChild(botaoCarregamento)
+    
+  } else {
+    carregarPokemon(offset, limit)
 
+  }
+
+  
 }) 
 
 
